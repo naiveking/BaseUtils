@@ -30,6 +30,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    //使用ViewBinding
+    buildFeatures {
+        //for view binding :
+        viewBinding = true
+        //for data binding:
+        //dataBinding = false
+    }
 }
 
 dependencies {
@@ -39,4 +47,39 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    /*okhttp*/
+    api 'com.squareup.okhttp3:okhttp:3.2.0'
+    //okhttp log
+    api 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    //BaseUrl管理
+    api 'me.jessyan:retrofit-url-manager:1.4.0'
+
+    api 'com.squareup.retrofit2:retrofit:2.0.2'
+    api 'com.squareup.retrofit2:converter-gson:2.0.2'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+
+    api 'com.blankj:utilcode:1.29.0'
+
+    api 'io.reactivex.rxjava2:rxjava:2.2.4'
+//    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    api 'io.reactivex:rxandroid:1.1.0'
+
+    //图片选择宫格加载
+    api 'cn.bingoogolapple:bga-baseadapter:1.2.7@aar'
+    api 'cn.bingoogolapple:bga-photopicker:1.2.7@aar'
+    //Glide
+    api 'com.github.bumptech.glide:glide:4.3.1'
+    api 'jp.wasabeef:glide-transformations:3.0.1'
+    //    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //rxpermissions
+    api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+//    api 'pub.devrel:easypermissions:3.0.0'
+
+    //crash
+    api 'cat.ereza:customactivityoncrash:2.2.0'
+
+    //Gson
+    api 'com.google.code.gson:gson:2.8.5'
 }

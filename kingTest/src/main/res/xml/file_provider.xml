@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--对应外部内存卡根目录：Environment.getExternalStorageDirectory()-->
+    <external-path
+        name="baseUtils"
+        path="." />
+
+
+    <!--    <files-path name="name" path="path" >	Context.getFilesDir()-->
+    <!--    <cache-path name="name" path="path">	Context.getCacheDir()-->
+    <!--    <external-path name="name" path="path">	Environment.getExternalStorageDirectory()-->
+    <!--    <external-files-path name="name" path="path">	Context.getExternalFilesDir(null)-->
+    <!--    <external-cache-path name="name" path="path">	Context.getExternalCacheDir()-->
+</paths>

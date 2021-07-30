@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="base_utils_no_data">No data</string>
+    <string name="base_utils_str_take_photo_permission_tip">The following permissions are required for photo taking and gallery functions:  1. Storage permission  2. Camera permissions</string>
+    <string name="base_utils_tips">Tips</string>
+    <string name="base_utils_str_all_load">All loaded</string>
+    <string name="base_utils_str_loading">Loading</string>
+    <string name="str_operate_menu">Operation menu</string>
+
+
+</resources>

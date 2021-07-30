@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:viewBindingIgnore="true">
+
+    <LinearLayout
+        android:id="@+id/ll_base_head_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_base_head"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_toolbar_height"
+            android:background="@color/theme_blue_color"
+            android:orientation="horizontal">
+
+
+            <ImageButton
+                android:id="@+id/img_btn_base_head_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:contentDescription="@null"
+                android:paddingStart="15dp"
+                android:paddingEnd="25dp"
+                android:src="@drawable/icon_bar_back" />
+
+
+            <TextView
+                android:id="@+id/tv_base_head_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/img_btn_base_head_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:background="@color/transparent"
+                android:contentDescription="@null"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_base_head_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/checkbox_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:background="@null"
+                android:button="@drawable/checkbox_input_style"
+                android:theme="@style/checkBoxDefaultStyle"
+                android:visibility="gone"
+                app:buttonCompat="@null" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F5F5F5" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_base_view_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
+</LinearLayout>

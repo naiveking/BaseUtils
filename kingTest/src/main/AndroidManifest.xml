@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kingtest">
+    package="com.king.baseutils">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+    <application>
+        <activity android:name=".base.BasePhotoPickerActivity" />
+
+        <activity
+            android:name=".activity.CrashErrorActivity"
+            android:process=":error_activity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="applicationId.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider" />
+        </provider>
+
+    </application>
 </manifest>

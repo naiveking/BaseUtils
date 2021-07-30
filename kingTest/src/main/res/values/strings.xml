@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="base_utils_no_data">没有数据</string>
+    <string name="base_utils_str_take_photo_permission_tip">拍照、图库功能需要以下权限:\n\n1.存储权限\n\n2.相机权限</string>
+    <string name="base_utils_str_all_load">已加载全部</string>
+    <string name="base_utils_str_loading">加载中</string>
+    <string name="base_utils_tips">提示</string>
+    <string name="str_operate_menu">操作菜单</string>
+
+
+</resources>

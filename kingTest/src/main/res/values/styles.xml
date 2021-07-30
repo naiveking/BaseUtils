@@ -1,0 +1,50 @@
+<resources>
+
+    <!--自定义弹窗通用Dialog样式-->
+    <style name="CustomDialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!--    Loading Dialog 样式-->
+    <style name="LoadDialogStyle">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
+
+    <!--dialog 弹出动画-->
+    <style name="dialogWindowAnim" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_push_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_push_out</item>
+    </style>
+
+    <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="checkBoxDefaultStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/orange</item>
+    </style>
+
+    <!--CarView 基本样式-->
+    <style name="base_cardView_style">
+        <!--        <item name="android:layout_margin">6dp</item>-->
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="background">@color/white</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="cardCornerRadius">6dp</item>
+    </style>
+
+</resources>
