@@ -1,7 +1,5 @@
 package com.king.naiveutils.http;
 
-import com.king.naiveutils.BaseUtils;
-
 import java.io.File;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -17,7 +15,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * @author Gwall - 2019/11/10
@@ -33,12 +30,12 @@ public class HttpClient {
         if (mDownClient == null) {
             synchronized (HttpClient.class) {
                 if (mDownClient == null) {
-                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                    if (BaseUtils.debug) {
-                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                    } else {
-                        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-                    }
+//                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//                    if (BaseUtils.debug) {
+//                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//                    } else {
+//                        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+//                    }
                     mDownClient = new OkHttpClient().newBuilder()
                             //错误重连
                             .retryOnConnectionFailure(false)
@@ -47,7 +44,7 @@ public class HttpClient {
                             .writeTimeout(20, TimeUnit.SECONDS)
                             .connectTimeout(10, TimeUnit.SECONDS)
                             //日志拦截输出，发布正式包禁用；
-                            .addInterceptor(interceptor)
+//                            .addInterceptor(interceptor)
                             .build();
                 }
             }
@@ -61,12 +58,12 @@ public class HttpClient {
             synchronized (HttpClient.class) {
                 if (mClient == null) {
                     //日志拦截输出，发布正式包禁用；
-                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                    if (BaseUtils.debug) {
-                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                    } else {
-                        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-                    }
+//                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//                    if (BaseUtils.debug) {
+//                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//                    } else {
+//                        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+//                    }
                     mClient = RetrofitUrlManager.getInstance()
                             .with(new OkHttpClient.Builder())
                             //错误重连
@@ -76,7 +73,7 @@ public class HttpClient {
                             .writeTimeout(20, TimeUnit.SECONDS)
                             .connectTimeout(10, TimeUnit.SECONDS)
                             //日志拦截输出，发布正式包禁用；
-                            .addInterceptor(interceptor)
+//                            .addInterceptor(interceptor)
                             .build();
                 }
             }
