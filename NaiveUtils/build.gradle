@@ -1,10 +1,8 @@
-plugins {
-    id 'com.android.library'
-}
+apply plugin: 'com.android.library'
 
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.naiveking'
+group = 'com.github.naiveking'
 
 android {
     compileSdkVersion 29
@@ -42,11 +40,11 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
     testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     /*okhttp*/
     api 'com.squareup.okhttp3:okhttp:3.2.0'

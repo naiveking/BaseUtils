@@ -23,9 +23,8 @@ import okhttp3.Response;
  */
 public class DownloadUtil {
 
-
     private static DownloadUtil downloadUtil;
-    private OkHttpClient okHttpClient;
+    private final OkHttpClient okHttpClient;
 
     public static DownloadUtil get() {
         if (downloadUtil == null) {
@@ -51,52 +50,56 @@ public class DownloadUtil {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 // 下载失败监听回调
-                listener.onDownloadFailed(e);
+                listener.onDownloadFailed(e.getMessage());
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) {
-                InputStream is = null;
-                byte[] buf = new byte[2048];
-                int len;
-                FileOutputStream fos = null;
-                // 储存下载文件的目录
-                File dir = new File(downApkPath);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                File file = new File(dir, destFileName);
-                if (file.exists()) {
-                    file.delete();
-                }
-                try {
-                    is = response.body().byteStream();
-                    long total = response.body().contentLength();
-                    fos = new FileOutputStream(file);
-                    long sum = 0;
-                    while ((len = is.read(buf)) != -1) {
-                        fos.write(buf, 0, len);
-                        sum += len;
-                        int progress = (int) (sum * 1.0f / total * 100);
-                        // 下载中更新进度条
-                        listener.onDownloading(progress);
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    InputStream is = null;
+                    byte[] buf = new byte[2048];
+                    int len;
+                    FileOutputStream fos = null;
+                    // 储存下载文件的目录
+                    File dir = new File(downApkPath);
+                    if (!dir.exists()) {
+                        dir.mkdirs();
                     }
-                    fos.flush();
-                    // 下载完成
-                    listener.onDownloadSuccess(file);
-                } catch (Exception e) {
-                    listener.onDownloadFailed(e);
-                } finally {
-                    try {
-                        if (is != null)
-                            is.close();
-                    } catch (IOException e) {
+                    File file = new File(dir, destFileName);
+                    if (file.exists()) {
+                        file.delete();
                     }
                     try {
-                        if (fos != null)
-                            fos.close();
-                    } catch (IOException e) {
+                        is = response.body().byteStream();
+                        long total = response.body().contentLength();
+                        fos = new FileOutputStream(file);
+                        long sum = 0;
+                        while ((len = is.read(buf)) != -1) {
+                            fos.write(buf, 0, len);
+                            sum += len;
+                            int progress = (int) (sum * 1.0f / total * 100);
+                            // 下载中更新进度条
+                            listener.onDownloading(progress);
+                        }
+                        fos.flush();
+                        // 下载完成
+                        listener.onDownloadSuccess(file);
+                    } catch (Exception e) {
+                        listener.onDownloadFailed(e.getMessage());
+                    } finally {
+                        try {
+                            if (is != null)
+                                is.close();
+                        } catch (IOException e) {
+                        }
+                        try {
+                            if (fos != null)
+                                fos.close();
+                        } catch (IOException e) {
+                        }
                     }
+                } else {
+                    listener.onDownloadFailed("Download failed" + "\n" + response.body().string());
                 }
             }
         });
@@ -114,9 +117,9 @@ public class DownloadUtil {
         void onDownloading(int progress);
 
         /**
-         * @param e 下载异常信息
+         * @param error 下载异常信息
          */
-        void onDownloadFailed(Exception e);
+        void onDownloadFailed(String error);
     }
 
 }
