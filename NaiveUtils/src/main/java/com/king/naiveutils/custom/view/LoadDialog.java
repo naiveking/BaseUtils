@@ -105,7 +105,7 @@ public class LoadDialog extends Dialog {
      * @param message  String, show the message to user when isCancel is true.
      * @param isCancel boolean, true is can't dimiss，false is can dimiss
      */
-    private static void show(Context context, String message, boolean isCancel) {
+    public static void show(Context context, String message, boolean isCancel) {
         if (context instanceof Activity) {
             if (((Activity) context).isFinishing()) {
                 return;

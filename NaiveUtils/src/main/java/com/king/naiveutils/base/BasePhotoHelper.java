@@ -176,7 +176,7 @@ public class BasePhotoHelper {
      */
     public static Uri createFileUri(File file) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            String authority = BaseUtils.getApp().getApplicationInfo().packageName + ".file_provider";
+            String authority = BaseUtils.getApp().getApplicationInfo().packageName + ".fileProvider";
             return FileProvider.getUriForFile(BaseUtils.getApp(), authority, file);
         } else {
             return Uri.fromFile(file);

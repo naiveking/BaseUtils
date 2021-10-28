@@ -1,20 +1,33 @@
 package com.king.naiveutils.http;
 
+import static rx.android.schedulers.AndroidSchedulers.mainThread;
+
+import com.king.naiveutils.inter.onHttpCallBack;
+
 import java.io.File;
+import java.io.IOException;
+import java.net.ConnectException;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
+import rx.Observer;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Gwall - 2019/11/10
@@ -138,9 +151,55 @@ public class HttpClient {
      * @param fileNames    完整的上传的文件的路径名
      * @param callback     OkHttp的回调接口
      */
-    public void doPostUploadRequest(String uploadUrl, HashMap<String, String> map, String imageFileKey, List<String> fileNames, Callback callback) {
-        Call call = mDownClient.newCall(getRequest(uploadUrl, map, imageFileKey, fileNames));
-        call.enqueue(callback);
+    public static void doPostUploadRequest(String uploadUrl, HashMap<String, String> map, String imageFileKey, List<String> fileNames, onHttpCallBack callback) {
+        callback.onStart();
+        Observable.just(getRequest(uploadUrl, map, imageFileKey, fileNames))
+                .map(new Func1<Request, String>() {
+                    @Override
+                    public String call(Request request) {
+                        Call call = getDownClient().newCall(request);
+                        String json;
+                        try {
+                            json = Objects.requireNonNull(call.execute().body()).string();
+                        } catch (IOException e) {
+                            json = e.getMessage();
+                        }
+                        return json;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(mainThread())
+                .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        callback.onError(throwable.getMessage());
+                    }
+                })
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        String message;
+                        if (e instanceof HttpException || e instanceof UnknownHostException) {
+                            message = "网络异常";
+                        } else if (e instanceof RuntimeException) {
+                            message = "网络请求出现异常:请检查";
+                        } else if (e instanceof ConnectException) {
+                            message = "连接失败";
+                        } else {
+                            message = "网络请求失败,请检查您的网络";
+                        }
+                        callback.onError(message);
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        callback.onSuccess(s);
+                    }
+                });
     }
 
     /**
@@ -152,7 +211,7 @@ public class HttpClient {
      * @param fileNames 完整的文件路径名
      * @return
      */
-    private Request getRequest(String url, HashMap<String, String> map, String imageFileKey, List<String> fileNames) {
+    private static Request getRequest(String url, HashMap<String, String> map, String imageFileKey, List<String> fileNames) {
         Request.Builder builder = new Request.Builder();
         builder.url(url).post(getRequestBody(map, imageFileKey, fileNames)).tag(url); //设置请求的标记，可在取消时使用
         return builder.build();
@@ -166,7 +225,7 @@ public class HttpClient {
      * @param fileNames 完整的文件路径名
      * @return
      */
-    private RequestBody getRequestBody(HashMap<String, String> map, String imageFileKey, List<String> fileNames) {
+    private static RequestBody getRequestBody(HashMap<String, String> map, String imageFileKey, List<String> fileNames) {
         MultipartBody.Builder builder = new MultipartBody.Builder(); //创建MultipartBody.Builder，用于添加请求的数据
         for (HashMap.Entry<String, String> entry : map.entrySet()) { //对键值对进行遍历
             builder.addFormDataPart(entry.getKey(), entry.getValue()); //把键值对添加到Builder中
@@ -189,7 +248,7 @@ public class HttpClient {
      * @param filename 文件名
      * @return 返回文件类型
      */
-    private String getMimeType(String filename) {
+    private static String getMimeType(String filename) {
         FileNameMap filenameMap = URLConnection.getFileNameMap();
         String contentType = filenameMap.getContentTypeFor(filename);
         if (contentType == null) {

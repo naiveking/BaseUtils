@@ -13,16 +13,16 @@
             android:name=".activity.CrashErrorActivity"
             android:process=":error_activity" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="applicationId.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
+<!--        <provider-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:authorities="applicationId.fileProvider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
 
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider" />
-        </provider>
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/file_path_provider" />-->
+<!--        </provider>-->
 
     </application>
 

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.king.naiveutils.R;
 
 import java.io.File;
@@ -148,6 +149,7 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
             return mIntent;
         }
     }
+
 
     /**
      * 获取已选择的图片集合
@@ -376,6 +378,7 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
         }
     }
 
+
     /**
      * 处理拍照
      */
@@ -397,6 +400,8 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
         try {
             startActivityForResult(mPhotoHelper.getTakePhotoIntent(), REQUEST_CODE_TAKE_PHOTO);
         } catch (Exception e) {
+            LogUtils.d(e.getMessage());
+            mPhotoHelper.deleteCameraFile();
             BGAPhotoPickerUtil.show(R.string.bga_pp_not_support_take_photo);
         }
     }
