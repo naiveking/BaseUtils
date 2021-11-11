@@ -3,9 +3,12 @@ package com.king.naiveutils.custom.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +24,8 @@ import java.util.List;
  * Created by NaiveKing on 2021/07/23.
  */
 public class DragMenuDialog extends Dialog {
+
+    private OnDialogOutSideClickListener onDialogShowStateListener;
 
     public DragMenuDialog(Context context) {
         super(context);
@@ -81,7 +86,7 @@ public class DragMenuDialog extends Dialog {
             if (animations != -1) {
                 dialog.getWindow().setWindowAnimations(animations);
             }
-            View layout = inflater.inflate(R.layout.dialog_drag_menu_layout, null);
+            View layout = inflater.inflate(R.layout.dialog_menu_layout, null);
             dialog.addContentView(layout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
                     , LinearLayout.LayoutParams.WRAP_CONTENT));
 
@@ -94,6 +99,7 @@ public class DragMenuDialog extends Dialog {
 
             RecyclerView mRlvMenu = layout.findViewById(R.id.rlv_drag_menu);
             mRlvMenu.setLayoutManager(new LinearLayoutManager(mContext));
+//            mRlvMenu.addItemDecoration(new MyDecoration(mContext, RecyclerView.VERTICAL));
             mRlvMenu.setOverScrollMode(View.OVER_SCROLL_NEVER);
             if (menuAdapter == null) {
                 menuAdapter = new DragItemAdapter();
@@ -114,7 +120,37 @@ public class DragMenuDialog extends Dialog {
         }
     }
 
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if (isOutOfBounds(getContext(), event)) {
+            if (onDialogShowStateListener != null) {
+                onDialogShowStateListener.onOutSideClick();
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (onDialogShowStateListener != null) {
+            onDialogShowStateListener.onOutSideClick();
+        }
+    }
+
+    private boolean isOutOfBounds(Context context, MotionEvent event) {
+        final int x = (int) event.getX();
+        final int y = (int) event.getY();
+        final int slop = ViewConfiguration.get(context).getScaledWindowTouchSlop();
+        final View decorView = getWindow().getDecorView();
+        return (x < -slop) || (y < -slop) || (x > decorView.getWidth() + slop) || (y > decorView.getHeight() + slop);
+    }
+
     public interface OnMenuItemClickListener {
         void onItemMenuClick(int position);
+    }
+
+    public interface OnDialogOutSideClickListener {
+        void onOutSideClick();
     }
 } 

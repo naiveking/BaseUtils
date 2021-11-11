@@ -95,17 +95,6 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
         onViewCreate(savedInstanceState);
 
         AppManager.getInstance().addActivity(this);
-
-//        //读取全局的配置的软键盘控制参数
-//        boolean isUseSoftInput = CacheUtil.getInstance().getSharedPreferences(this, "isUseSoftInput", false);
-//        mCheckInput.setChecked(isUseSoftInput);
-//        onInputInitState(isUseSoftInput);
-//        mCheckInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                onInputStateChange(isChecked);
-//            }
-//        });
     }
 
 

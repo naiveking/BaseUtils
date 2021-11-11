@@ -24,13 +24,14 @@
             android:lines="1"
             android:text="提示"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:visibility="visible" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1">
 
             <LinearLayout
@@ -78,7 +79,7 @@
                 android:focusable="false"
                 android:gravity="center"
                 android:text="cancel"
-                android:textColor="@color/blue"
+                android:textColor="#1E9FFF"
                 android:textSize="16sp" />
 
             <View
@@ -96,7 +97,7 @@
                 android:focusable="false"
                 android:gravity="center"
                 android:text="ok"
-                android:textColor="@color/blue"
+                android:textColor="#1E9FFF"
                 android:textSize="16sp" />
 
         </LinearLayout>

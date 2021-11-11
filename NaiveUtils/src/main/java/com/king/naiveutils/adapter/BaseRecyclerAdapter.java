@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.king.naiveutils.R;
 import com.king.naiveutils.databinding.RecyclerItemEmptyBinding;
 import com.king.naiveutils.databinding.RecyclerItemFooterBinding;
