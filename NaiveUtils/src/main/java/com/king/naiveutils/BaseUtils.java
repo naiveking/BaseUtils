@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.bingoogolapple.baseadapter.BGABaseAdapterUtil;
 
 /**
@@ -71,5 +74,4 @@ public class BaseUtils {
         }
     }
 
-    
 }
