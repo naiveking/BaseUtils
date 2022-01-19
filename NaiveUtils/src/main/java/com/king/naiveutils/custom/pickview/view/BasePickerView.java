@@ -16,10 +16,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
+import com.king.naiveutils.R;
 import com.king.naiveutils.custom.pickview.configure.PickerOptions;
 import com.king.naiveutils.custom.pickview.listener.OnDismissListener;
 import com.king.naiveutils.custom.pickview.utils.PickerViewAnimateUtil;
-import com.gwall.gscan.R;
+
 
 /**
  * Created by Sai on 15/11/22.

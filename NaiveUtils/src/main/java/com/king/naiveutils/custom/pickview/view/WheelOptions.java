@@ -4,11 +4,11 @@ import android.graphics.Typeface;
 import android.view.View;
 
 
+import com.king.naiveutils.R;
 import com.king.naiveutils.custom.pickview.adapter.ArrayWheelAdapter;
 import com.king.naiveutils.custom.pickview.listener.OnOptionsSelectChangeListener;
 import com.king.naiveutils.custom.wheelview.listener.OnItemSelectedListener;
 import com.king.naiveutils.custom.wheelview.view.WheelView;
-import com.gwall.gscan.R;
 
 import java.util.List;
 

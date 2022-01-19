@@ -6,13 +6,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.king.naiveutils.R;
 import com.king.naiveutils.custom.pickview.listener.CustomListener;
 import com.king.naiveutils.custom.pickview.listener.OnOptionsSelectChangeListener;
 import com.king.naiveutils.custom.pickview.listener.OnOptionsSelectListener;
 import com.king.naiveutils.custom.pickview.listener.OnTimeSelectChangeListener;
 import com.king.naiveutils.custom.pickview.listener.OnTimeSelectListener;
 import com.king.naiveutils.custom.wheelview.view.WheelView;
-import com.gwall.gscan.R;
 
 
 import java.util.Calendar;

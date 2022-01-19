@@ -2,6 +2,7 @@ package com.king.naiveutils.custom.pickview.view;
 
 import android.view.View;
 
+import com.king.naiveutils.R;
 import com.king.naiveutils.custom.pickview.adapter.ArrayWheelAdapter;
 import com.king.naiveutils.custom.pickview.adapter.NumericWheelAdapter;
 import com.king.naiveutils.custom.pickview.listener.ISelectTimeCallback;
@@ -9,17 +10,17 @@ import com.king.naiveutils.custom.pickview.utils.ChinaDate;
 import com.king.naiveutils.custom.pickview.utils.LunarCalendar;
 import com.king.naiveutils.custom.wheelview.listener.OnItemSelectedListener;
 import com.king.naiveutils.custom.wheelview.view.WheelView;
-import com.gwall.gscan.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class WheelTime {
-    public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private View view;
     private WheelView wv_year;
     private WheelView wv_month;

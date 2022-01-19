@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.king.naiveutils.R;
 import com.king.naiveutils.custom.pickview.configure.PickerOptions;
-import com.gwall.gscan.R;
 
 
 import java.util.List;

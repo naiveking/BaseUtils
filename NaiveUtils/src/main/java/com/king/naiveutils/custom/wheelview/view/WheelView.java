@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.king.naiveutils.R;
 import com.king.naiveutils.custom.wheelview.adapter.WheelAdapter;
 import com.king.naiveutils.custom.wheelview.interfaces.IPickerViewData;
 import com.king.naiveutils.custom.wheelview.listener.LoopViewGestureListener;
@@ -23,7 +24,7 @@ import com.king.naiveutils.custom.wheelview.listener.OnItemSelectedListener;
 import com.king.naiveutils.custom.wheelview.timer.InertiaTimerTask;
 import com.king.naiveutils.custom.wheelview.timer.MessageHandler;
 import com.king.naiveutils.custom.wheelview.timer.SmoothScrollTimerTask;
-import com.gwall.gscan.R;
+
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

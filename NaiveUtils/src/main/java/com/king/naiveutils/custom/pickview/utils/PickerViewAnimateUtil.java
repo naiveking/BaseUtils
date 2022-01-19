@@ -2,7 +2,7 @@ package com.king.naiveutils.custom.pickview.utils;
 
 import android.view.Gravity;
 
-import com.gwall.gscan.R;
+import com.king.naiveutils.R;
 
 
 /**
@@ -10,6 +10,7 @@ import com.gwall.gscan.R;
  */
 public class PickerViewAnimateUtil {
     private static final int INVALID = -1;
+
     /**
      * Get default animation resource when not defined by the user
      *
