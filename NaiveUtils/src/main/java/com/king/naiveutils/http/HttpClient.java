@@ -2,6 +2,7 @@ package com.king.naiveutils.http;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
+import com.king.naiveutils.BaseUtils;
 import com.king.naiveutils.inter.onHttpCallBack;
 
 import java.io.File;
@@ -86,7 +87,7 @@ public class HttpClient {
                             .writeTimeout(20, TimeUnit.SECONDS)
                             .connectTimeout(10, TimeUnit.SECONDS)
                             //日志拦截输出，发布正式包禁用；
-//                            .addInterceptor(interceptor)
+                            .addInterceptor(BaseUtils.debug ? new LogInterceptor() : null)
                             .build();
                 }
             }
