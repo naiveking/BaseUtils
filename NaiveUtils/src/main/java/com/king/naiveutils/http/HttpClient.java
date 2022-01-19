@@ -23,6 +23,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Observer;
@@ -87,7 +88,7 @@ public class HttpClient {
                             .writeTimeout(20, TimeUnit.SECONDS)
                             .connectTimeout(10, TimeUnit.SECONDS)
                             //日志拦截输出，发布正式包禁用；
-                            .addInterceptor(BaseUtils.debug ? new LogInterceptor() : null)
+                            .addInterceptor(BaseUtils.debug ? new LogInterceptor() : new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
                             .build();
                 }
             }
