@@ -2,6 +2,7 @@ package com.king.naiveutils.http;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
+
 import com.king.naiveutils.BaseUtils;
 import com.king.naiveutils.inter.onHttpCallBack;
 
