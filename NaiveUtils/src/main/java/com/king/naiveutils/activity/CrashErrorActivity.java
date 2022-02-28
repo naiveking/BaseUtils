@@ -42,7 +42,7 @@ public class CrashErrorActivity extends AppCompatActivity {
         setContentView(R.layout.customactivityoncrash_default_error_activity);
 
 //        errorMessage = CustomActivityOnCrash.getAllErrorDetailsFromIntent(CrashErrorActivity.this, getIntent());
-//        //TODO 异常信息
+//        // 异常信息
 //        saveCrashInfo2File(errorMessage);
 
         //Close/restart button logic:

@@ -37,7 +37,6 @@
                 android:paddingRight="25dp"
                 android:src="@drawable/icon_bar_back" />
 
-
             <TextView
                 android:id="@+id/tv_base_head_title"
                 android:layout_width="match_parent"
@@ -48,31 +47,37 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-            <ImageButton
-                android:id="@+id/img_btn_base_head_right"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:background="@color/transparent"
-                android:contentDescription="@null"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:visibility="gone" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_base_head_right"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                <TextView
+                    android:id="@+id/tv_base_head_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/img_btn_base_head_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:contentDescription="@null"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/checkbox_input"
