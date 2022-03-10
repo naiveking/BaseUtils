@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.content.ContextCompat;
 
-
 import com.king.naiveutils.R;
 
 import java.util.Objects;
@@ -118,6 +117,9 @@ public class ClearEditView extends AppCompatEditText implements View.OnFocusChan
         ClearEditView editView = (ClearEditView) v;
         this.hasFocus = hasFocus;
         if (hasFocus) {
+            if (!isEnabled()) {
+                return;
+            }
             setClearIconVisible(Objects.requireNonNull(getText()).length() > 0);
             if (editView.getHint() != null) {
                 editView.setTag(editView.getHint().toString());
