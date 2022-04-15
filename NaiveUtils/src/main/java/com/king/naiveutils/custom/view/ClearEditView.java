@@ -134,6 +134,12 @@ public class ClearEditView extends AppCompatEditText implements View.OnFocusChan
     }
 
     @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        onFocusChange(this, enabled);
+    }
+
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
