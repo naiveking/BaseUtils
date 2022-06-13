@@ -17,7 +17,7 @@ public interface IBaseView {
     /**
      * 刷新界面操作
      */
-    void updateUI();
+    void updateView();
 
     /**
      * 显示异常错误弹窗
