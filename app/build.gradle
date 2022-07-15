@@ -44,4 +44,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(':NaiveUtils')
+    implementation project(':editor')
+//    implementation 'com.gitee.naiveking:basic-tools:1.0.6'
+
+//    implementation 'com.github.naiveking:BaseUtils:1.3.5'
 }
