@@ -6,23 +6,34 @@
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application>
         <activity android:name=".base.BasePhotoPickerActivity" />
+
+        <activity
+            android:name=".activity.CameraScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashAppTheme" />
 
         <activity
             android:name=".activity.CrashErrorActivity"
             android:process=":error_activity" />
 
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="applicationId.fileProvider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
+        <activity android:name=".activity.BasePicEditActivity" />
 
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_path_provider" />-->
-<!--        </provider>-->
+        <!--        <provider-->
+        <!--            android:name="androidx.core.content.FileProvider"-->
+        <!--            android:authorities="applicationId.fileProvider"-->
+        <!--            android:exported="false"-->
+        <!--            android:grantUriPermissions="true">-->
+
+        <!--            <meta-data-->
+        <!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--                android:resource="@xml/file_path_provider" />-->
+        <!--        </provider>-->
 
     </application>
 

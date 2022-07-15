@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="emoji_tab_indicator">#66ffffff</color>
+    <color name="emoji_tab_underline">#11ffffff</color>
+
     <!-- 程序自定义颜色   _user 结尾 -->
 
     <color name="theme_blue_color">#006AD5</color> <!-- 主色蓝 -->

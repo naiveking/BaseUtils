@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewbinding.ViewBinding;
+
 import com.king.naiveutils.R;
 
 import java.lang.reflect.Method;
@@ -88,7 +89,7 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             //设置状态栏颜色
 //            window.setStatusBarColor(getResources().getColor(R.color.theme_blue_color));// Resources中的getColor(int)已过时
-            window.setStatusBarColor(ContextCompat.getColor(this,R.color.theme_blue_color));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.theme_blue_color));
         }
 //        setStatusBar();
 
@@ -293,7 +294,9 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
      * @param targetActivity 要跳转的目标Activity
      */
     public final void startActivity(@NonNull Class<?> targetActivity) {
-        startActivity(new Intent(this, targetActivity));
+        Intent intent = new Intent(this, targetActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     /**
@@ -330,6 +333,7 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
     public final void startActivity(@NonNull Bundle data, @NonNull Class<?> targetActivity) {
         final Intent intent = new Intent();
         intent.putExtras(data);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.setClass(this, targetActivity);
         startActivity(intent);
     }
@@ -343,6 +347,7 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
     public void startActivity(Class<?> clz, Bundle bundle) {
         Intent intent = new Intent();
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.setClass(this, clz);
         if (bundle != null) {
             intent.putExtras(bundle);

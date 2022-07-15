@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 apply plugin: 'com.github.dcendents.android-maven'
 
@@ -32,11 +33,15 @@ android {
     }
 
     //使用ViewBinding
-    buildFeatures {
-        //for view binding :
-        viewBinding = true
-        //for data binding:
-        //dataBinding = false
+//    buildFeatures {
+//        //for view binding :
+//        viewBinding = true
+//        //for data binding:
+//        //dataBinding = false
+//    }
+
+    viewBinding {
+        enabled = true
     }
 }
 
@@ -83,4 +88,13 @@ dependencies {
 
     //Gson
     api 'com.google.code.gson:gson:2.8.5'
+
+    api 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    api project(':editor')
+
+    api'cn.bingoogolapple:bga-qrcode-zxing:1.3.7'
+
+}
+repositories {
+    mavenCentral()
 }

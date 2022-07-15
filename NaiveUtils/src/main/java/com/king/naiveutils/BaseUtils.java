@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
+import com.vachel.editor.PictureEditor;
+import com.vachel.editor.util.Utils;
+
 import cn.bingoogolapple.baseadapter.BGABaseAdapterUtil;
 
 /**
@@ -36,6 +39,15 @@ public class BaseUtils {
 
     public static void init(Context context) {
         debug = (isApkInDebug(context));
+        PictureEditor.getInstance()
+                .setMaxScale(10)
+//                .setBtnColor(Color.GREEN)
+                .setMaxStickerScale(3f)
+                .setRelativeSavePath("edit/test")
+//                .setDoodleColors(new int[]{Color.WHITE, Color.BLACK, Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE, Color.DKGRAY, Color.CYAN})
+//                .setDefaultCheckColor(Color.BLUE)
+                .setClipRectMarginBottom(Utils.dip2px(context, 44))
+                .setClipRectMarginNormal(Utils.dip2px(context, 16));
     }
 
     public static Application getApp() {

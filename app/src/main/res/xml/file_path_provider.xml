@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+
+    <!--
+     表示设备的根目录，
+    对应File DEVICE_ROOT = new File("/")
+    目录路径："/"；
+    -->
+        <root-path
+            name="gwall"
+            path="." />
+
+    <!--    表示内部存储空间应用私有目录下的 files/ 目录，
+    对应Context.getFilesDir()
+    所获取的目录路径：/data/data/<包名>/files；-->
+    <files-path
+        name="files"
+        path="." />
+
+    <!--    表示内部存储空间应用私有目录下的 cache/ 目录，
+    对应Context.getCacheDir()
+    所获取的目录路径：/data/data/<包名>/cache；-->
+    <cache-path
+        name="cache"
+        path="." />
+
+    <!--    表示外部存储空间根目录，
+    对应Environment.getExternalStorageDirectory()
+    所获取的目录路径：/storage/emulate/0；-->
+    <external-path
+        name="external-path"
+        path="." />
+
+    <!--    表示外部存储空间应用私有目录下的 files/ 目录，
+    对应Context.getExternalFilesDir()
+    所获取的目录路径：/storage/emulate/0/Android/data/<包名>/files；-->
+    <external-files-path
+        name="external-files-path"
+        path="." />
+
+    <!--    表示外部存储空间应用私有目录下的 cache/ 目录，
+    对应Context.getExternalCacheDir()
+    所获取的目录路径：/storage/emulate/0/Android/data/<包名>/cache；-->
+    <external-cache-path
+        name="external-cache-paht"
+        path="." />
+
+    <!--    表示外部媒体区域根目录中的文件，
+    对应Context.getExternalMediaDirs()
+    所获取的目录路径：/storage/emulated/0/Android/media/<包名>。-->
+    <external-media-path
+        name="external-media-path"
+        path="." />
+
+
+</paths>

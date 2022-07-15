@@ -1,3 +1,4 @@
 include ':NaiveUtils'
+include ':editor'
 include ':app'
 //rootProject.name = "My Application"

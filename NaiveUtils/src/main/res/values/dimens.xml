@@ -32,4 +32,9 @@
     <!--通用：界面显示TextView、EditView字体大小-->
     <dimen name="activity_show_text_size">18sp</dimen>
 
+    <dimen name="emoji_drawer_size">28dp</dimen>
+    <dimen name="emoji_drawer_item_padding">8dp</dimen>
+    <dimen name="emoji_drawer_indicator_height">2dp</dimen>
+    <dimen name="emoji_drawer_left_right_padding">8dp</dimen>
+
 </resources>
