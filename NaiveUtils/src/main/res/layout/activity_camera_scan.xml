@@ -38,14 +38,15 @@
         app:qrcv_verticalBias="0.5" />
 
 
-    <TextView
-        android:id="@+id/tv_open_light"
+    <ImageView
+        android:id="@+id/img_open_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:padding="12dp"
-        android:text="开灯"
+        android:layout_marginBottom="12dp"
+        android:padding="6dp"
+        android:src="@drawable/icon_light_close"
         android:textColor="@color/white"
         android:textSize="24sp" />
 </RelativeLayout>

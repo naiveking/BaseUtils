@@ -11,6 +11,7 @@ import android.os.Vibrator
 import android.view.View
 import cn.bingoogolapple.qrcode.core.QRCodeView
 import com.blankj.utilcode.util.ToastUtils
+import com.king.naiveutils.R
 import com.king.naiveutils.base.BaseActivity
 import com.king.naiveutils.databinding.ActivityCameraScanBinding
 import com.king.naiveutils.inter.GwOnNoDoubleClickListener
@@ -73,13 +74,15 @@ class CameraScanActivity : BaseActivity<ActivityCameraScanBinding>(),
     private fun init() {
         binding.zxingView.setDelegate(this)
         onStart()
-        binding.tvOpenLight.setOnClickListener(object : GwOnNoDoubleClickListener() {
+        binding.imgOpenLight.setOnClickListener(object : GwOnNoDoubleClickListener() {
             override fun onNoDoubleClick(v: View) {
                 isOpenLight = if (!isOpenLight) {
                     binding.zxingView.openFlashlight()
+                    binding.imgOpenLight.setImageResource(R.drawable.icon_light_open)
                     true
                 } else {
                     binding.zxingView.closeFlashlight()
+                    binding.imgOpenLight.setImageResource(R.drawable.icon_light_close)
                     false
                 }
             }
@@ -148,7 +151,7 @@ class CameraScanActivity : BaseActivity<ActivityCameraScanBinding>(),
      * @param activity     Activity实例
      * @param milliseconds 震动的时长，单位是毫秒
      */
-    fun vibrate(activity: Activity, milliseconds: Long) {
+    private fun vibrate(activity: Activity, milliseconds: Long) {
         val vib = activity.getSystemService(VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vib.vibrate(
