@@ -1,6 +1,7 @@
 package com.king.naiveutils.utils;
 
-import androidx.annotation.NonNull;
+
+import android.text.TextUtils;
 
 import com.king.naiveutils.http.HttpClient;
 
@@ -11,9 +12,15 @@ import java.io.InputStream;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 
 /**
  * 下载工具
@@ -42,24 +49,12 @@ public class DownloadUtil {
      * @param versionName 下载文件版本名
      * @param listener    下载监听
      */
-    public void download(final String url, String versionName, String downApkPath, final OnDownloadListener listener) {
-        //拼接下载文件名
-        String destFileName = "Gp_" + versionName + ".apk";
-        Request request = new Request.Builder().get().url(url).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                // 下载失败监听回调
-                listener.onDownloadFailed(e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    InputStream is = null;
-                    byte[] buf = new byte[2048];
-                    int len;
-                    FileOutputStream fos = null;
+    public void download(String url, String versionName, String downApkPath, OnDownloadListener listener) {
+        Observable.create((Observable.OnSubscribe<File>) subscriber -> {
+                    String destFileName;
+                    Request request = new Request.Builder().get().url(url).build();
+                    destFileName = getFileName(url, versionName);
+                    Call call = HttpClient.getDownClient().newCall(request);
                     // 储存下载文件的目录
                     File dir = new File(downApkPath);
                     if (!dir.exists()) {
@@ -69,40 +64,99 @@ public class DownloadUtil {
                     if (file.exists()) {
                         file.delete();
                     }
-                    try {
-                        is = response.body().byteStream();
-                        long total = response.body().contentLength();
-                        fos = new FileOutputStream(file);
-                        long sum = 0;
-                        while ((len = is.read(buf)) != -1) {
-                            fos.write(buf, 0, len);
-                            sum += len;
-                            int progress = (int) (sum * 1.0f / total * 100);
-                            // 下载中更新进度条
-                            listener.onDownloading(progress);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            subscriber.onError(e);
                         }
-                        fos.flush();
-                        // 下载完成
+
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            FileOutputStream fos = null;
+                            InputStream is = null;
+                            if (response.isSuccessful()) {
+                                try {
+                                    long total = response.body().contentLength();
+                                    long sum = 0;
+                                    fos = new FileOutputStream(file);
+                                    is = response.body().byteStream();
+                                    byte[] buf = new byte[1024 * 20];
+                                    int len;
+                                    while ((len = is.read(buf)) != -1) {
+                                        fos.write(buf, 0, len);
+                                        sum += len;
+                                        int progress = (int) (sum * 1.0f / total * 100);
+                                        // 下载中更新进度条
+                                        listener.onDownloading(progress);
+                                    }
+                                    fos.flush();
+                                    subscriber.onNext(file);
+                                } catch (IOException e) {
+                                    subscriber.onError(e);
+                                } finally {
+                                    try {
+                                        if (is != null) {
+                                            is.close();
+                                        }
+                                    } catch (IOException ignored) {
+                                    }
+                                    try {
+                                        if (fos != null) {
+                                            fos.close();
+                                        }
+                                    } catch (IOException ignored) {
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<File>() {
+
+                    @Override
+                    public void onNext(File file) {
                         listener.onDownloadSuccess(file);
-                    } catch (Exception e) {
-                        listener.onDownloadFailed(e.getMessage());
-                    } finally {
-                        try {
-                            if (is != null)
-                                is.close();
-                        } catch (IOException e) {
-                        }
-                        try {
-                            if (fos != null)
-                                fos.close();
-                        } catch (IOException e) {
-                        }
                     }
-                } else {
-                    listener.onDownloadFailed("Download failed" + "\n" + response.body().string());
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        listener.onDownloadFailed(e.getMessage());
+                    }
+                });
+    }
+
+
+    public String getFileName(String url, String versionName) {
+        String fileName = null;
+        if (!TextUtils.isEmpty(url)) {
+            try {
+                OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象
+                Request request = new Request.Builder()
+                        .url(url)//请求接口。如果需要传参拼接到接口后面。
+                        .build();//创建Request 对象
+                Response response = client.newCall(request).execute();//得到Response 对象
+                HttpUrl realUrl = response.request().url();
+                if (realUrl != null) {
+                    //截取逻辑规则根据不同得url而定
+                    String temp = realUrl.toString();
+                    fileName = temp.substring(temp.lastIndexOf("/") + 1);
+                    fileName = fileName.substring(0, fileName.indexOf("?"));
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+                fileName = "";
             }
-        });
+        }
+        if (TextUtils.isEmpty(fileName)) {
+            return "Gp" + versionName + ".apk";
+        }
+        return fileName;
     }
 
     public interface OnDownloadListener {

@@ -2,7 +2,6 @@ package com.king.naiveutils.http;
 
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
-
 import com.king.naiveutils.BaseUtils;
 import com.king.naiveutils.inter.onHttpCallBack;
 
@@ -37,24 +36,18 @@ import rx.schedulers.Schedulers;
  */
 public class HttpClient {
 
-    private static OkHttpClient mClient;
+    private static volatile OkHttpClient mClient;
 
-    private static OkHttpClient mDownClient;
+    private static volatile OkHttpClient mDownClient;
 
 
     public static OkHttpClient getDownClient() {
         if (mDownClient == null) {
             synchronized (HttpClient.class) {
                 if (mDownClient == null) {
-//                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//                    if (BaseUtils.debug) {
-//                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//                    } else {
-//                        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-//                    }
                     mDownClient = new OkHttpClient().newBuilder()
                             //错误重连
-                            .retryOnConnectionFailure(false)
+                            .retryOnConnectionFailure(true)
                             //超时重连
                             .readTimeout(20, TimeUnit.SECONDS)
                             .writeTimeout(20, TimeUnit.SECONDS)
@@ -73,13 +66,6 @@ public class HttpClient {
         if (mClient == null) {
             synchronized (HttpClient.class) {
                 if (mClient == null) {
-                    //日志拦截输出，发布正式包禁用；
-//                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//                    if (BaseUtils.debug) {
-//                        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//                    } else {
-//                        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-//                    }
                     mClient = RetrofitUrlManager.getInstance()
                             .with(new OkHttpClient.Builder())
                             //错误重连
