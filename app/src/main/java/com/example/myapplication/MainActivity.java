@@ -13,7 +13,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.king.naiveutils.custom.view.ClearEditView;
+import com.king.naiveutils.utils.DownloadUtil;
+import com.king.naiveutils.utils.FileUtils;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,6 +87,23 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 mTvResult.setText(isScan ? "输入结果：扫描输入" : "输入结果：监测到按键输入");
+            }
+        });
+        String url = "https://saas-execl.oss-cn-zhangjiakou.aliyuncs.com/saas/gmanager/Gw_debug_4.5.739_53_220803_20220803113812251.apk?Expires=1754105900&OSSAccessKeyId=LTAI4G1svTUQQio9XEeN6eBe&Signature=WcPPiza1DCp7t0ZLVCg98ExNkfg%3D";
+        DownloadUtil.get().download(url, "V1.0.0", FileUtils.getDownloadPath(MainActivity.this), new DownloadUtil.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File file) {
+                ToastUtils.showShort("下载成功");
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+
+            }
+
+            @Override
+            public void onDownloadFailed(String error) {
+                ToastUtils.showShort("下载失败" + error);
             }
         });
     }

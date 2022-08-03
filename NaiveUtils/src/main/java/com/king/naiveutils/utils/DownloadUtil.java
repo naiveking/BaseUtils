@@ -1,7 +1,10 @@
 package com.king.naiveutils.utils;
 
 
+import android.os.Build;
 import android.text.TextUtils;
+
+import androidx.annotation.RequiresApi;
 
 import com.king.naiveutils.http.HttpClient;
 
@@ -49,12 +52,13 @@ public class DownloadUtil {
      * @param versionName 下载文件版本名
      * @param listener    下载监听
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void download(String url, String versionName, String downApkPath, OnDownloadListener listener) {
         Observable.create((Observable.OnSubscribe<File>) subscriber -> {
                     String destFileName;
                     Request request = new Request.Builder().get().url(url).build();
                     destFileName = getFileName(url, versionName);
-                    Call call = HttpClient.getDownClient().newCall(request);
+                    Call call = okHttpClient.newCall(request);
                     // 储存下载文件的目录
                     File dir = new File(downApkPath);
                     if (!dir.exists()) {
@@ -107,6 +111,8 @@ public class DownloadUtil {
                                     } catch (IOException ignored) {
                                     }
                                 }
+                            } else {
+                                subscriber.onError(new Exception("Network exception " + response.code()));
                             }
                         }
                     });
