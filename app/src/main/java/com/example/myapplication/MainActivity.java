@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 mTvResult.setText(isScan ? "输入结果：扫描输入" : "输入结果：监测到按键输入");
             }
         });
-        String url = "https://saas-execl.oss-cn-zhangjiakou.aliyuncs.com/saas/gmanager/Gw_debug_4.5.739_53_220803_20220803113812251.apk?Expires=1754105900&OSSAccessKeyId=LTAI4G1svTUQQio9XEeN6eBe&Signature=WcPPiza1DCp7t0ZLVCg98ExNkfg%3D";
+        String url = "http://218.19.34.251:19011/gwms_hd_package/uploadInstallpackageDownload/Gw_release_4.5.743_53_220811.apk";
         DownloadUtil.get().download(url, "V1.0.0", FileUtils.getDownloadPath(MainActivity.this), new DownloadUtil.OnDownloadListener() {
             @Override
             public void onDownloadSuccess(File file) {

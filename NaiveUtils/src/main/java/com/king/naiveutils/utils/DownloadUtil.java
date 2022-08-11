@@ -152,11 +152,11 @@ public class DownloadUtil {
                     //截取逻辑规则根据不同得url而定
                     String temp = realUrl.toString();
                     fileName = temp.substring(temp.lastIndexOf("/") + 1);
-                    fileName = fileName.substring(0, fileName.indexOf("?"));
+                    fileName = fileName.substring(0, !fileName.contains(".apk") ? fileName.length() : fileName.indexOf(".apk") + 4);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                fileName = "";
+                fileName = "Gp" + versionName + ".apk";
             }
         }
         if (TextUtils.isEmpty(fileName)) {
