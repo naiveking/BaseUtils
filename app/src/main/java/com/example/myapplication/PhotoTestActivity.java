@@ -166,6 +166,8 @@ public class PhotoTestActivity extends AppCompatActivity {
                             .selectedPhotos(photoLayout.getData()) // 当前已选中的图片路径集合
                             .pauseOnScroll(true) // 滚动列表时是否暂停加载图片
                             .openEditPhoto(true)
+                            .setTakePhotoBack(true)
+                            .setRightText("上传")
                             .build();
                     startActivityForResult(photoPickerIntent, RC_CHOOSE_PHOTO);
                 } else {

@@ -56,6 +56,8 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
     private static final String EXTRA_PAUSE_ON_SCROLL = "EXTRA_PAUSE_ON_SCROLL";
     private static final String STATE_SELECTED_PHOTOS = "STATE_SELECTED_PHOTOS";
     private static final String EXTRA_EDIT_PHOTOS = "EXTRA_EDIT_PHOTOS";
+    private static final String EXTRA_TAKE_PHOTO_BACK = "EXTRA_TAKE_PHOTO_BACK";
+    private static final String EXTRA_RIGHT_TEXT = "EXTRA_RIGHT_TEXT";
 
     /**
      * 拍照的请求码
@@ -104,6 +106,8 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
     private AppCompatDialog mLoadingDialog;
 
     private boolean isEditPhoto;
+
+    private boolean takePhotoBackToAlbum;
 
     private final BGAOnNoDoubleClickListener mOnClickShowPhotoFolderListener = new BGAOnNoDoubleClickListener() {
         @Override
@@ -164,6 +168,22 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
             return this;
         }
 
+        /**
+         * 拍照后返回选择照片相册，默认为 false，返回调用界面
+         */
+        public IntentBuilder setTakePhotoBack(boolean takePhotoBack) {
+            mIntent.putExtra(EXTRA_TAKE_PHOTO_BACK, takePhotoBack);
+            return this;
+        }
+
+        /**
+         * 设置右上角按钮文字
+         */
+        public IntentBuilder setRightText(String text) {
+            mIntent.putExtra(EXTRA_RIGHT_TEXT, text);
+            return this;
+        }
+
         public Intent build() {
             return mIntent;
         }
@@ -211,9 +231,12 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
         }
 
         isEditPhoto = getIntent().getBooleanExtra(EXTRA_EDIT_PHOTOS, false);
-
-        // 获取右上角按钮文本
-        mTopRightBtnText = getString(R.string.bga_pp_confirm);
+        takePhotoBackToAlbum = getIntent().getBooleanExtra(EXTRA_TAKE_PHOTO_BACK, false);
+        mTopRightBtnText = getIntent().getStringExtra(EXTRA_RIGHT_TEXT);
+        if (TextUtils.isEmpty(mTopRightBtnText)) {
+            // 获取右上角按钮文本
+            mTopRightBtnText = getString(R.string.bga_pp_confirm);
+        }
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, SPAN_COUNT, LinearLayoutManager.VERTICAL, false);
         mContentRv.setLayoutManager(layoutManager);
@@ -357,9 +380,11 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
         } else if (requestCode == RC_PREVIEW && resultCode == RESULT_OK) {
             if (BGAPhotoPickerPreviewActivity.getIsFromTakePhoto(data)) {
                 // 从拍照预览界面返回，刷新图库
-                mPhotoHelper.refreshGallery();
+                mPhotoHelper.refreshGallery(this);
             }
-            returnSelectedPhotos(BGAPhotoPickerPreviewActivity.getSelectedPhotos(data));
+            if (!takePhotoBackToAlbum) {
+                returnSelectedPhotos(BGAPhotoPickerPreviewActivity.getSelectedPhotos(data));
+            }
         } else if (requestCode == RC_PREVIEW && resultCode == RESULT_CANCELED) {
             if (BGAPhotoPickerPreviewActivity.getIsFromTakePhoto(data)) {
                 // 从拍照预览界面返回，删除之前拍的照片
@@ -415,7 +440,6 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
         }
     }
 
-
     /**
      * 处理拍照
      */
@@ -453,7 +477,6 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
         if (mCurrentPhotoFolderModel.isTakePhotoEnabled()) {
             currentPosition--;
         }
-
         Intent photoPickerPreviewIntent = new BGAPhotoPickerPreviewActivity.IntentBuilder(this)
                 .previewPhotos((ArrayList<String>) mPicAdapter.getData())
                 .selectedPhotos(mPicAdapter.getSelectedPhotos())
@@ -508,7 +531,6 @@ public class BasePhotoPickerActivity extends BGAPPToolbarActivity implements BGA
             if (mTitleTv != null) {
                 mTitleTv.setText(mCurrentPhotoFolderModel.name);
             }
-
             mPicAdapter.setPhotoFolderModel(mCurrentPhotoFolderModel);
         }
     }

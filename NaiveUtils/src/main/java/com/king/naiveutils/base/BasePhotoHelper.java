@@ -1,6 +1,8 @@
 package com.king.naiveutils.base;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -47,8 +49,8 @@ public class BasePhotoHelper {
     /**
      * 创建用于保存拍照生成的图片文件
      *
-     * @return
-     * @throws IOException
+     * @return 文件File
+     * @throws IOException 异常
      */
     private File createCameraFile() throws IOException {
         File captureFile = File.createTempFile(
@@ -62,8 +64,8 @@ public class BasePhotoHelper {
     /**
      * 创建用于保存裁剪生成的图片文件
      *
-     * @return
-     * @throws IOException
+     * @return 文件File
+     * @throws IOException 异常
      */
     private File createCropFile() throws IOException {
         File cropFile = File.createTempFile(
@@ -77,7 +79,7 @@ public class BasePhotoHelper {
     /**
      * 获取从系统相册选图片意图
      *
-     * @return
+     * @return 意图
      */
     public Intent getChooseSystemGalleryIntent() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -91,8 +93,8 @@ public class BasePhotoHelper {
     /**
      * 获取拍照意图
      *
-     * @return
-     * @throws IOException
+     * @return 意图
+     * @throws IOException 异常
      */
     public Intent getTakePhotoIntent() throws IOException {
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -103,13 +105,57 @@ public class BasePhotoHelper {
     /**
      * 刷新图库
      */
-    public void refreshGallery() {
+    public void refreshGallery(Context context) {
         if (!TextUtils.isEmpty(mCameraFilePath)) {
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);//Intent中的ACTION_MEDIA_SCANNER_SCAN_FILE已过时
-            mediaScanIntent.setData(createFileUri(new File(mCameraFilePath)));
-            BGABaseAdapterUtil.getApp().sendBroadcast(mediaScanIntent);
+//            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);//Intent中的ACTION_MEDIA_SCANNER_SCAN_FILE已过时
+//            mediaScanIntent.setData(createFileUri(new File(mCameraFilePath)));
+//            BGABaseAdapterUtil.getApp().sendBroadcast(mediaScanIntent);
+            insertMediaPic(context, mCameraFilePath);
             mCameraFilePath = null;
         }
+    }
+
+    /**
+     * 插入相册 部分机型适配(区分手机系统版本 Android Q)
+     *
+     * @param context  上下文
+     * @param filePath 文件路径
+     * @return 是否成功
+     */
+    public boolean insertMediaPic(Context context, String filePath) {
+        if (TextUtils.isEmpty(filePath)) return false;
+        File file = new File(filePath);
+        //判断android Q  (10 ) 版本
+        if (isAndroidQ()) {
+            if (!file.exists()) {
+                return false;
+            } else {
+                try {
+                    MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), file.getName(), null);
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        } else {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            values.put(MediaStore.Images.ImageColumns.DATE_TAKEN, System.currentTimeMillis() + "");
+            context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
+            return true;
+        }
+    }
+
+    /**
+     * 判断android Q  (10 ) 版本
+     *
+     * @return 是否是安卓Q
+     */
+    public static boolean isAndroidQ() {
+        return Build.VERSION.SDK_INT >= 29;
     }
 
     /**
@@ -147,7 +193,7 @@ public class BasePhotoHelper {
     /**
      * 获取裁剪图片的 intent
      *
-     * @return
+     * @return 意图
      */
     public Intent getCropIntent(String inputFilePath, int width, int height) throws IOException {
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -171,8 +217,8 @@ public class BasePhotoHelper {
     /**
      * 根据文件创建 Uri
      *
-     * @param file
-     * @return
+     * @param file File文件
+     * @return Uri
      */
     public static Uri createFileUri(File file) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
@@ -186,8 +232,8 @@ public class BasePhotoHelper {
     /**
      * 从 Uri 中获取文件路劲
      *
-     * @param uri
-     * @return
+     * @param uri Uri
+     * @return Path路径
      */
     public static String getFilePathFromUri(Uri uri) {
         if (uri == null) {
