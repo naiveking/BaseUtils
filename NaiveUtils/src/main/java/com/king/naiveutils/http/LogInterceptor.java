@@ -105,7 +105,7 @@ public class LogInterceptor implements Interceptor {
         if (requestBody != null) {
             MediaType mediaType = requestBody.contentType();
             if (mediaType != null) {
-                Log.d(TAG, "请求内容类别 : " + mediaType.toString());
+                Log.d(TAG, "请求内容类别 : " + mediaType);
                 if (isText(mediaType)) {
                     Log.d(TAG, "请求内容 : " + bodyToString(request));
                 } else {
@@ -123,6 +123,8 @@ public class LogInterceptor implements Interceptor {
         try {
             req.body().writeTo(buffer);
             String message = buffer.readUtf8();
+            message = message.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+            message = message.replaceAll("\\+", "%2B");
             urlSub = URLDecoder.decode(message, "utf-8");
         } catch (IOException e) {
             e.printStackTrace();

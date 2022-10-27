@@ -75,7 +75,7 @@ public class HttpClient {
                             .writeTimeout(20, TimeUnit.SECONDS)
                             .connectTimeout(10, TimeUnit.SECONDS)
                             //日志拦截输出，发布正式包禁用；
-                            .addInterceptor(BaseUtils.debug ? new LogInterceptor() : new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
+                            .addNetworkInterceptor(BaseUtils.debug ? new LogInterceptor() : new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
                             .build();
                 }
             }
