@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         ArrayList<FloatMenuBean> list = new ArrayList<>();
-        list.add(new FloatMenuBean(FloatMenuAdapter.TYPE_ITEM_MENU, "审核"));
-        list.add(new FloatMenuBean(FloatMenuAdapter.TYPE_ITEM_MENU, "装箱"));
-        list.add(new FloatMenuBean(FloatMenuAdapter.TYPE_ITEM_MENU, "下班"));
+        list.add(new FloatMenuBean(FloatMenuAdapter.TYPE_ITEM_MENU, "1"));
+        list.add(new FloatMenuBean(FloatMenuAdapter.TYPE_ITEM_MENU, "2"));
+        list.add(new FloatMenuBean(FloatMenuAdapter.TYPE_ITEM_MENU, "3"));
         new FloatMenuView.Builder().setActivity(this).setMenuItem(list)
                 .setListener(new FloatMenuView.onMenuItemClickListener() {
                     @Override

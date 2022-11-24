@@ -13,6 +13,7 @@ import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -310,9 +311,16 @@ public class FloatMenuView implements View.OnTouchListener {
                             listener.onItemClick(position, menuBean);
                         }
                     }
+
+                    @Override
+                    public void onOpenClick() {
+                        menuAdapter.changeMenu();
+                    }
                 });
+//                LayoutAnimationController controller = new LayoutAnimationController(AnimationUtils.loadAnimation(activity, R.anim.recycler_item_anim));
+//                recyclerView.setLayoutAnimation(controller);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(menuAdapter);
-                menuAdapter.notifyDataSetChanged();
                 this.view = recyclerView;
             }
             return createDragView(this);

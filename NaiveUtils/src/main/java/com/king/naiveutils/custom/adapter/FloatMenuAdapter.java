@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,11 +38,25 @@ public class FloatMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public FloatMenuAdapter(ArrayList<FloatMenuBean> listData) {
         this.listData = new ArrayList<>();
         this.menuList = listData;
+        menuList.add(new FloatMenuBean(FloatMenuAdapter.TYPE_OPEN_MENU, "开关"));
         changeMenu();
     }
 
     public void setOnItemMenuClick(FloatMenuAdapter.onItemMenuClick onItemMenuClick) {
         this.onItemMenuClick = onItemMenuClick;
+    }
+
+    public synchronized void addMenu(FloatMenuBean menuBean) {
+        listData.add(0, menuBean);
+        notifyItemInserted(0);
+        notifyItemRangeChanged(0, listData.size());
+    }
+
+    public synchronized void removeMenu(FloatMenuBean menuBean, int position) {
+        listData.remove(menuBean);
+        notifyItemRemoved(position);
+//        notifyItemRangeChanged(position, listData.size());
+//        notifyItemRangeRemoved(position, 1);
     }
 
     @NonNull
@@ -63,10 +78,13 @@ public class FloatMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((MenuButtonHolder) holder).mImgButton.setOnClickListener(new GwOnNoDoubleClickListener() {
                 @Override
                 public void onNoDoubleClick(View v) {
-                    changeMenu();
+                    if (onItemMenuClick != null) {
+                        onItemMenuClick.onOpenClick();
+                    }
                 }
             });
         } else if (holder instanceof MenuViewHolder) {
+
             ((MenuViewHolder) holder).mTvMenu.setText(listData.get(position).getMenuName());
             ((MenuViewHolder) holder).mTvMenu.setOnClickListener(new GwOnNoDoubleClickListener() {
                 @Override
@@ -81,15 +99,33 @@ public class FloatMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void changeMenu() {
-        listData.clear();
         if (isOpen) {
             isOpen = false;
+            for (int i = 0; i < menuList.size(); i++) {
+                if (menuList.get(i).getMenuType() == TYPE_ITEM_MENU) {
+                    removeMenu(menuList.get(i), i);
+                }
+            }
+            notifyDataSetChanged();
         } else {
             isOpen = true;
-            listData.addAll(menuList);
+            for (int i = 0; i < menuList.size(); i++) {
+                if (menuList.get(i).getMenuType() == TYPE_ITEM_MENU) {
+                    addMenu(menuList.get(i));
+                }
+            }
+            boolean hasOpen = false;
+            for (int i = 0; i < listData.size(); i++) {
+                if (listData.get(i).getMenuType() == TYPE_OPEN_MENU) {
+                    hasOpen = true;
+                }
+            }
+            if (!hasOpen) {
+                listData.add(listData.size(), new FloatMenuBean(FloatMenuAdapter.TYPE_OPEN_MENU, "开关"));
+                notifyItemInserted(listData.size());
+                notifyItemRangeChanged(0, listData.size());
+            }
         }
-        listData.add(new FloatMenuBean(FloatMenuAdapter.TYPE_OPEN_MENU, ""));
-        notifyDataSetChanged();
     }
 
     @Override
@@ -104,10 +140,12 @@ public class FloatMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     class MenuViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvMenu;
+        private LinearLayout mLlRootView;
 
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvMenu = itemView.findViewById(R.id.tv_menu_name);
+            mLlRootView = itemView.findViewById(R.id.root_view);
         }
     }
 
@@ -122,5 +160,7 @@ public class FloatMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public interface onItemMenuClick {
         void onItemClick(FloatMenuBean menuBean, int position);
+
+        void onOpenClick();
     }
 }
